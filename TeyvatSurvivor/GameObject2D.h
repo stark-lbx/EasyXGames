@@ -7,22 +7,22 @@ public:
   GameObject2D() = default;
   virtual ~GameObject2D() = 0;
 
-  // »ñÈ¡¶ÔÏóÎ»ÖÃ
+  // è·å–å¯¹è±¡ä½ç½®
   virtual const POINT& getPosition() const;
-  // ÉèÖÃ¶ÔÏóÎ»ÖÃ
+  // è®¾ç½®å¯¹è±¡ä½ç½®
   virtual void setPosition(int x, int y);
 
-  // »ñÈ¡¶ÔÏó³ß´ç
+  // è·å–å¯¹è±¡å°ºå¯¸
   virtual const SIZE& getSize() const;
-  // ÉèÖÃ¶ÔÏó³ß´ç
+  // è®¾ç½®å¯¹è±¡å°ºå¯¸
   virtual void setSize(int w, int h);
 protected:
-  POINT position;   // Î»ÖÃ
-  SIZE size;        // ³ß´ç
+  POINT position;   // ä½ç½®
+  SIZE size;        // å°ºå¯¸
 };
 
 
-// Ä¿Ç°ÓÃÍ¾: Ë÷µĞ
+// ç›®å‰ç”¨é€”: ç´¢æ•Œ
 class EmptyObject2D :public GameObject2D {
 public:
   ~EmptyObject2D() = default;
