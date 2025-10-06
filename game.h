@@ -19,7 +19,7 @@ static void run() {
   mciSendString(L"open mus/hit.wav alias hit", NULL, 0, NULL); // 加载打击音效
 
   Player player{ 500,500,4,4 };
-  std::vector<Bullet> bullets(3, &player); // 初始3颗子弹
+  std::vector<Bullet> bullets(3); // 初始3颗子弹
   std::vector<std::shared_ptr<Enemy>> enemies;
 
   auto frame_time = std::chrono::duration<double, std::milli>(1000.0 / 60.0); //60fps
@@ -49,9 +49,10 @@ static void run() {
     }
 
     // 2.数据处理    
-    player.move();                        // 角色移动
-    for (Bullet& b : bullets) b.update(); // 子弹追踪
-    Enemy::tryGenerateEnemy(enemies);     // 敌人生成
+    player.move();                                  // 角色移动
+    for (int i = 0; i < bullets.size(); i++)
+      bullets[i].update(player, i, bullets.size()); // 子弹追踪
+    Enemy::tryGenerateEnemy(enemies);               // 敌人生成
     for (auto& e : enemies) {
       if (e->checkCollision(player)) {
         // 检测到碰撞事件发生, 结束游戏
@@ -89,7 +90,7 @@ static void run() {
     for (auto& e : enemies)e->draw(1000 / 144);   // 敌人绘制
     player.draw(1000 / 144);                      // 角色绘制
     for (const auto& b : bullets) b.draw();       // 子弹绘制
-    drawPlayerScore(player.getScore());           // 绘制角色得分
+    drawPlayerScore(player.getScore());           // 分数绘制
 
     FlushBatchDraw();
 
