@@ -12,6 +12,6 @@ public:
   void update(const BaseRole& ref_role, int index, int total) override;
 
 private:
-  constexpr static const int RADIUS = 10;     // Բ���ӵ��뾶
+  constexpr static const int RADIUS = 10;     // Ô²Çò×Óµ¯°ë¾¶
 };
 
