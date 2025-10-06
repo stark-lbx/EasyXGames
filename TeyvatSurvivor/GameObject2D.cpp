@@ -1,6 +1,6 @@
 #include "GameObject2D.h"
 
-// ¼´Ê±Îö¹¹ÊÇ´¿Ğéº¯Êı, Ò²±ØĞëÒªÌá¹©ÊµÏÖ
+// å³æ—¶ææ„æ˜¯çº¯è™šå‡½æ•°, ä¹Ÿå¿…é¡»è¦æä¾›å®ç°
 GameObject2D::~GameObject2D() {}
 
 GameObject2D::GameObject2D(int x, int y, int w, int h)
