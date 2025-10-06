@@ -1,7 +1,7 @@
 #include "Animation.h"
 
 Animation::Animation(LPCTSTR path, int num, int interval) {
-  // ¼ÓÔØÍ¼Æ¬(Â·¾¶, ÊıÁ¿, Ö¡¼ä¸ô)
+  // åŠ è½½å›¾ç‰‡(è·¯å¾„, æ•°é‡, å¸§é—´éš”)
   interval_ms = interval;
 
   TCHAR path_file[256];
@@ -17,7 +17,7 @@ Animation::Animation(LPCTSTR path, int num, int interval) {
 void Animation::play(int x, int y, int delta) {
   timer += delta;
   if (timer >= interval_ms) {
-    // Ñ­»·²¥·ÅµÄºËĞÄ: È¡Óà
+    // å¾ªç¯æ’­æ”¾çš„æ ¸å¿ƒ: å–ä½™
     idx_frame = (idx_frame + 1) % frame_list.size();
     timer = 0;
   }
