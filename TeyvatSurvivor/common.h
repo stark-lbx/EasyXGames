@@ -8,14 +8,14 @@
 #pragma comment(lib, "Winmm.lib")
 #pragma comment(lib, "Msimg32.lib")
 
-// ´°ÌåµÄ³ß´ç
+// çª—ä½“çš„å°ºå¯¸
 static constexpr int WINDOW_WIDTH = 1280;
 static constexpr int WINDOW_HEIGHT = 720;
 
-// ÒÆ¶¯·½ÏòÇ¿Ã¶¾Ù
+// ç§»åŠ¨æ–¹å‘å¼ºæšä¸¾
 enum class Direction { UP, DOWN, LEFT, RIGHT };
 
-// ´¦Àí´øÓĞÍ¸Ã÷¶ÈµÄÍ¼Æ¬ĞÅÏ¢
+// å¤„ç†å¸¦æœ‰é€æ˜åº¦çš„å›¾ç‰‡ä¿¡æ¯
 static void putimageAlpha(int x, int y, IMAGE* img) {
   int w = img->getwidth();
   int h = img->getheight();
@@ -25,10 +25,10 @@ static void putimageAlpha(int x, int y, IMAGE* img) {
     { AC_SRC_OVER,0,255,AC_SRC_ALPHA });
 }
 
-// »æÖÆÓÃ»§µÃ·Ö
+// ç»˜åˆ¶ç”¨æˆ·å¾—åˆ†
 static void drawPlayerScore(size_t score) {
   static TCHAR text[64];
-  _stprintf_s(text, L"µ±Ç°Íæ¼ÒµÃ·Ö: %lld", score);
+  _stprintf_s(text, L"å½“å‰ç©å®¶å¾—åˆ†: %lld", score);
 
   setbkmode(TRANSPARENT);
   settextcolor(RGB(255, 85, 185));
