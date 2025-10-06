@@ -25,9 +25,8 @@ public:
   const int getAttack() const;
   void setAttack(int newatk);
 
-  virtual void bind(const BaseRole* prole) = 0;
   virtual void draw() const = 0;
-  virtual void update() = 0;
+  virtual void update(const BaseRole& prole, int index, int total) = 0;
 
   // WHY: 这里不知道为什么，在做碰撞检测时, 从父类的接口获取的值不是 {0,0} 
   const SIZE& getSize() const override {
