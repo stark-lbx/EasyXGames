@@ -11,15 +11,15 @@ void Bullet::draw() const {
 }
 
 void Bullet::update(const BaseRole& ref_role, int index, int total) {
-  // È·±£×Óµ¯ÊµÊ±¸úËæ½ÇÉ«ÒÆ¶¯
-  static int angle = 0;         // ½Ç¶È
-  const int angle_interval = 1; // ½Ç¶È¼ä¸ô(Ã¿´Î¸üÐÂ 4 ¸ö½Ç¶È)
+  // ç¡®ä¿å­å¼¹å®žæ—¶è·Ÿéšè§’è‰²ç§»åŠ¨
+  static int angle = 0;         // è§’åº¦
+  const int angle_interval = 1; // è§’åº¦é—´éš”(æ¯æ¬¡æ›´æ–° 4 ä¸ªè§’åº¦)
   angle = (angle + angle_interval) % 360;
-  double radius = 100 + 25 * sin(angle * acos(-1.0) / 180);  // ¸¡¶¯°ë¾¶³¤¶È(100 ¡À 25)
+  double radius = 100 + 25 * sin(angle * acos(-1.0) / 180);  // æµ®åŠ¨åŠå¾„é•¿åº¦(100 Â± 25)
 
-  // ½Ç¶ÈÖµ×ª»¡¶ÈÖÆ
+  // è§’åº¦å€¼è½¬å¼§åº¦åˆ¶
   double radian = ((360.0 / total) * index + angle) * acos(-1.0) / 180;
-  // ÉèÖÃÎäÆ÷ÐÂÎ»ÖÃ
+  // è®¾ç½®æ­¦å™¨æ–°ä½ç½®
   this->setPosition(
     ref_role.getPosition().x + ref_role.getSize().cx / 2 + int(radius * cos(radian)),
     ref_role.getPosition().y + ref_role.getSize().cy / 2 - int(radius * sin(radian))
