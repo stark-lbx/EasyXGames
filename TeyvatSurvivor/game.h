@@ -6,7 +6,7 @@
 
 namespace game {
 static void run() {
-  srand(time(NULL));  //ÖÖÏÂËæ»úÊıÖÖ×Ó, Íê³ÉÕæÕıµÄËæ»ú
+  srand(time(NULL));  //ç§ä¸‹éšæœºæ•°ç§å­, å®ŒæˆçœŸæ­£çš„éšæœº
   initgraph(WINDOW_WIDTH, WINDOW_HEIGHT);
   ExMessage msg;
   bool running = true;
@@ -14,21 +14,21 @@ static void run() {
   IMAGE img_background;
   loadimage(&img_background, L"img/background.png");
 
-  mciSendString(L"open mus/bgm.mp3 alias bgm", NULL, 0, NULL); // ¼ÓÔØ±³¾°ÒôÀÖ
-  mciSendString(L"play bgm repeat from 0", NULL, 0, NULL);     // Ñ­»·²¥·ÅÒôÀÖ
-  mciSendString(L"open mus/hit.wav alias hit", NULL, 0, NULL); // ¼ÓÔØ´ò»÷ÒôĞ§
+  mciSendString(L"open mus/bgm.mp3 alias bgm", NULL, 0, NULL); // åŠ è½½èƒŒæ™¯éŸ³ä¹
+  mciSendString(L"play bgm repeat from 0", NULL, 0, NULL);     // å¾ªç¯æ’­æ”¾éŸ³ä¹
+  mciSendString(L"open mus/hit.wav alias hit", NULL, 0, NULL); // åŠ è½½æ‰“å‡»éŸ³æ•ˆ
 
   Player player{ 500,500,4,4 };
-  std::vector<Bullet> bullets(3); // ³õÊ¼3¿Å×Óµ¯
+  std::vector<Bullet> bullets(3); // åˆå§‹3é¢—å­å¼¹
   std::vector<std::shared_ptr<Enemy>> enemies;
 
   auto frame_time = std::chrono::duration<double, std::milli>(1000.0 / 60.0); //60fps
   BeginBatchDraw();
   while (running) {
     auto start_time = std::chrono::high_resolution_clock::now();
-    // 1.»ñÈ¡ÊäÈë
+    // 1.è·å–è¾“å…¥
     while (peekmessage(&msg)) {
-      // ¿ØÖÆ½ÇÉ«ÒÆ¶¯·½Ïò
+      // æ§åˆ¶è§’è‰²ç§»åŠ¨æ–¹å‘
       if (msg.message == WM_KEYDOWN) {
         switch (msg.vkcode) {
         case VK_UP: player.turnTo(Direction::UP); break;
@@ -48,25 +48,25 @@ static void run() {
       }
     }
 
-    // 2.Êı¾İ´¦Àí    
-    player.move();                                  // ½ÇÉ«ÒÆ¶¯
+    // 2.æ•°æ®å¤„ç†    
+    player.move();                                  // è§’è‰²ç§»åŠ¨
     for (int i = 0; i < bullets.size(); i++)
-      bullets[i].update(player, i, bullets.size()); // ×Óµ¯×·×Ù
-    Enemy::tryGenerateEnemy(enemies);               // µĞÈËÉú³É
+      bullets[i].update(player, i, bullets.size()); // å­å¼¹è¿½è¸ª
+    Enemy::tryGenerateEnemy(enemies);               // æ•Œäººç”Ÿæˆ
     for (auto& e : enemies) {
       if (e->checkCollision(player)) {
-        // ¼ì²âµ½Åö×²ÊÂ¼ş·¢Éú, ½áÊøÓÎÏ·
+        // æ£€æµ‹åˆ°ç¢°æ’äº‹ä»¶å‘ç”Ÿ, ç»“æŸæ¸¸æˆ
         TCHAR result_text[1024];
-        _stprintf_s(result_text, L"ºÜ²»ĞÒ, Äú±»Ò°Öí×² '¸Â' ÁË! ! !\n ÄúµÄµÃ·ÖÎª: %lld", player.getScore());
-        MessageBox(GetHWnd(), result_text, L"ÓÎÏ·½áÊø", MB_OK);
+        _stprintf_s(result_text, L"å¾ˆä¸å¹¸, æ‚¨è¢«é‡çŒªæ’ 'å˜' äº†! ! !\n æ‚¨çš„å¾—åˆ†ä¸º: %lld", player.getScore());
+        MessageBox(GetHWnd(), result_text, L"æ¸¸æˆç»“æŸ", MB_OK);
 
-        // ÊÍ·Å×ÊÔ´
+        // é‡Šæ”¾èµ„æº
         EndBatchDraw();
-        mciSendString(L"close bgm from 0", NULL, 0, NULL); // ¼ÓÔØ´ò»÷ÒôĞ§
+        mciSendString(L"close bgm from 0", NULL, 0, NULL); // åŠ è½½æ‰“å‡»éŸ³æ•ˆ
         closegraph();
         return (void)0;
       }
-      e->move(player);  //µĞÈËÒÆ¶¯
+      e->move(player);  //æ•Œäººç§»åŠ¨
 
       for (const Bullet& b : bullets) {
         if (e->checkCollision(b))
@@ -74,23 +74,23 @@ static void run() {
       }
     }
 
-    // µĞÈËÒÆ³ıÂß¼­: ´ÓºóÏòÇ°ÒÆ³ı
+    // æ•Œäººç§»é™¤é€»è¾‘: ä»åå‘å‰ç§»é™¤
     for (int i = enemies.size() - 1; i >= 0; --i) {
       if (enemies[i]->isAlive()) continue;
-      // ²»´æ»î, ÒÆ³ı
+      // ä¸å­˜æ´», ç§»é™¤
       player.addScore(enemies[i]->getValue());
       enemies.erase(enemies.begin() + i);
-      mciSendString(L"play hit from 0", NULL, 0, NULL);            // ²¥·Å´ò»÷ÒôĞ§
+      mciSendString(L"play hit from 0", NULL, 0, NULL);            // æ’­æ”¾æ‰“å‡»éŸ³æ•ˆ
     }
 
-    // 3.»æÖÆ½çÃæ
+    // 3.ç»˜åˆ¶ç•Œé¢
     cleardevice();
 
-    putimage(0, 0, &img_background);              // ±³¾°Í¼Æ¬»æÖÆ
-    for (auto& e : enemies)e->draw(1000 / 144);   // µĞÈË»æÖÆ
-    player.draw(1000 / 144);                      // ½ÇÉ«»æÖÆ
-    for (const auto& b : bullets) b.draw();       // ×Óµ¯»æÖÆ
-    drawPlayerScore(player.getScore());           // ·ÖÊı»æÖÆ
+    putimage(0, 0, &img_background);              // èƒŒæ™¯å›¾ç‰‡ç»˜åˆ¶
+    for (auto& e : enemies)e->draw(1000 / 144);   // æ•Œäººç»˜åˆ¶
+    player.draw(1000 / 144);                      // è§’è‰²ç»˜åˆ¶
+    for (const auto& b : bullets) b.draw();       // å­å¼¹ç»˜åˆ¶
+    drawPlayerScore(player.getScore());           // åˆ†æ•°ç»˜åˆ¶
 
     FlushBatchDraw();
 
@@ -101,7 +101,7 @@ static void run() {
     }
   }
   EndBatchDraw();
-  mciSendString(L"close bgm from 0", NULL, 0, NULL); // ¼ÓÔØ´ò»÷ÒôĞ§
+  mciSendString(L"close bgm from 0", NULL, 0, NULL); // åŠ è½½æ‰“å‡»éŸ³æ•ˆ
   closegraph();
 }
 
