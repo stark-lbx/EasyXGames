@@ -26,14 +26,14 @@ public:
   void move() override;
   void draw(int delta) override;
 
-  // ½ÇÉ«×ªÏò
+  // è§’è‰²è½¬å‘
   void turnTo(Direction direction);
-  // Í£Ö¹½ÇÉ«ÔÚÄ³·½ÏòµÄÒÆ¶¯ĞĞÎª
+  // åœæ­¢è§’è‰²åœ¨æŸæ–¹å‘çš„ç§»åŠ¨è¡Œä¸º
   void stopMoveOn(Direction direction);
 
-  // ¼Ó»ı·Ö
+  // åŠ ç§¯åˆ†
   void addScore(size_t s);
-  // È¡»ı·Ö
+  // å–ç§¯åˆ†
   const size_t getScore() const;
 
 private:
@@ -41,13 +41,13 @@ private:
   static const int HEIGHT = 80;
   static const int SHADOW_WIDTH = 32;
 private:
-  // ÊÇ·ñÔÚ up¡¢down¡¢left¡¢right ·½ÏòÉÏÒÆ¶¯
+  // æ˜¯å¦åœ¨ upã€downã€leftã€right æ–¹å‘ä¸Šç§»åŠ¨
   bool is_move_up = false;
   bool is_move_down = false;
   bool is_move_left = false;
   bool is_move_right = false;
 
-  // ½ÇÉ«µ±Ç°µÃ·Ö
+  // è§’è‰²å½“å‰å¾—åˆ†
   size_t score = 0;
 };
 
