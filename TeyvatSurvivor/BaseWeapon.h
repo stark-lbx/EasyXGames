@@ -1,17 +1,17 @@
 #pragma once
 #include "GameObject2D.h"
 #include "BaseRole.h"
-// ÊÖ»æÎäÆ÷, Ã»ÓĞÍ¼Æ¬
+// æ‰‹ç»˜æ­¦å™¨, æ²¡æœ‰å›¾ç‰‡
 class BaseWeapon : public GameObject2D {
   /*
   * GameObject2D:
   * public:
-  *   // »ñÈ¡¶ÔÏóÎ»ÖÃ
+  *   // è·å–å¯¹è±¡ä½ç½®
   *   virtual const POINT& getPosition() const = 0;
-  *   // ÉèÖÃ¶ÔÏóÎ»ÖÃ
+  *   // è®¾ç½®å¯¹è±¡ä½ç½®
   *   virtual void setPosition(int x, int y) = 0;
   * protected:
-  *   POINT position;  //Î»ÖÃ
+  *   POINT position;  //ä½ç½®
   */
 public:
   BaseWeapon() = default;
@@ -28,12 +28,12 @@ public:
   virtual void draw() const = 0;
   virtual void update(const BaseRole& prole, int index, int total) = 0;
 
-  // WHY: ÕâÀï²»ÖªµÀÎªÊ²Ã´£¬ÔÚ×öÅö×²¼ì²âÊ±, ´Ó¸¸ÀàµÄ½Ó¿Ú»ñÈ¡µÄÖµ²»ÊÇ {0,0} 
+  // WHY: è¿™é‡Œä¸çŸ¥é“ä¸ºä»€ä¹ˆï¼Œåœ¨åšç¢°æ’æ£€æµ‹æ—¶, ä»çˆ¶ç±»çš„æ¥å£è·å–çš„å€¼ä¸æ˜¯ {0,0} 
   const SIZE& getSize() const override {
     static SIZE s{ 0,0 };
     return s;
   }
 protected:
-  int m_attack;   // ¹¥»÷Á¦
+  int m_attack;   // æ”»å‡»åŠ›
 };
 
