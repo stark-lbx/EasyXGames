@@ -1,14 +1,17 @@
 #include "Enemy.h"
 
+const Atlas Enemy::ATLAS_LEFT = { L"img/enemy_left_%d.png",6 };
+const Atlas Enemy::ATLAS_RIGHT = { L"img/enemy_right_%d.png",6 };
+
 Enemy::Enemy()
   :BaseRole(0, 0, Enemy::WIDTH, Enemy::HEIGHT, 3, 3, 1) {
 
-  // åŠ è½½é˜´å½±
+  // ¼ÓÔØÒõÓ°
   loadimage(&img_shadow, L"img/shadow_enemy.png");
-  anim_left = std::make_shared<Animation>(L"img/enemy_left_%d.png", 6, 45);
-  anim_right = std::make_shared<Animation>(L"img/enemy_right_%d.png", 6, 45);
+  anim_left = std::make_shared<Animation>(&Enemy::ATLAS_LEFT, 45);
+  anim_right = std::make_shared<Animation>(&Enemy::ATLAS_RIGHT, 45);
 
-  // å°†æ•Œäººæ”¾ç½®åœ¨åœ°å›¾å¤–è¾¹ç•Œå¤„çš„éšæœºä½ç½®
+  // ½«µĞÈË·ÅÖÃÔÚµØÍ¼Íâ±ß½ç´¦µÄËæ»úÎ»ÖÃ
   enum class SpawnEdge { Up, Down, Left, Right };
   SpawnEdge edge = SpawnEdge(rand() % 4);
   switch (edge) {
@@ -33,10 +36,10 @@ Enemy::Enemy()
 }
 
 void Enemy::draw(int delta) {
-  // è®¡ç®—é˜´å½±ä½ç½®(æ°´å¹³å±…ä¸­, å‚ç›´åº•éƒ¨åä¸‹)
+  // ¼ÆËãÒõÓ°Î»ÖÃ(Ë®Æ½¾ÓÖĞ, ´¹Ö±µ×²¿Æ«ÏÂ)
   int pos_shadow_x = position.x + (Enemy::WIDTH / 2 - Enemy::SHADOW_WIDTH / 2);
   int pos_shadow_y = position.y + Enemy::HEIGHT - 20;
-  // ç»˜åˆ¶é˜´å½±æ•ˆæœ 
+  // »æÖÆÒõÓ°Ğ§¹û 
   putimageAlpha(pos_shadow_x, pos_shadow_y, &img_shadow);
 
   if (facing_left) {
@@ -46,20 +49,20 @@ void Enemy::draw(int delta) {
   }
 }
 
-// æ•Œäººç§»åŠ¨(éšæœºç§»åŠ¨ æ–¹ä¾¿åç»­æ‹“å±•: è¿›å…¥æŒ‡å®šèŒƒå›´è§¦å‘ä»‡æ¨ç³»ç»Ÿ, ä¹Ÿå°±æ˜¯æ‹‰æ€ª)
+// µĞÈËÒÆ¶¯(Ëæ»úÒÆ¶¯ ·½±ãºóĞøÍØÕ¹: ½øÈëÖ¸¶¨·¶Î§´¥·¢³ğºŞÏµÍ³, Ò²¾ÍÊÇÀ­¹Ö)
 void Enemy::move() {
-  // éšæœºç§»åŠ¨, å¤ç”¨å†™å¥½çš„è¿½è¸ªç§»åŠ¨
-  // å…ˆæ„é€ ä¸€ä¸ªç›®æ ‡, ç›®æ ‡ä½ç½®éšæœº
-  // è®©æ•Œäººæœç€éšæœºç›®æ ‡ç§»åŠ¨
+  // Ëæ»úÒÆ¶¯, ¸´ÓÃĞ´ºÃµÄ×·×ÙÒÆ¶¯
+  // ÏÈ¹¹ÔìÒ»¸öÄ¿±ê, Ä¿±êÎ»ÖÃËæ»ú
+  // ÈÃµĞÈË³¯×ÅËæ»úÄ¿±êÒÆ¶¯
   const GameObject2D& obj2
     = EmptyObject2D{ rand() % (WINDOW_WIDTH / 2), rand() % (WINDOW_HEIGHT / 2) };
   this->move(obj2);
 }
-// æ•Œäººç§»åŠ¨(è‡ªåŠ¨è¿½è¸ª ç›®æ ‡ç‰©ä½“)
+// µĞÈËÒÆ¶¯(×Ô¶¯×·×Ù Ä¿±êÎïÌå)
 void Enemy::move(const GameObject2D& object) {
-  int dir_x = object.getPosition().x - position.x; // xæ–¹å‘çš„ç§»åŠ¨å•ä½
-  int dir_y = object.getPosition().y - position.y; // yæ–¹å‘çš„ç§»åŠ¨å•ä½
-  double len_dir = std::sqrt(dir_x * dir_x + dir_y * dir_y); // ç§»åŠ¨çš„å®é™…å•ä½
+  int dir_x = object.getPosition().x - position.x; // x·½ÏòµÄÒÆ¶¯µ¥Î»
+  int dir_y = object.getPosition().y - position.y; // y·½ÏòµÄÒÆ¶¯µ¥Î»
+  double len_dir = std::sqrt(dir_x * dir_x + dir_y * dir_y); // ÒÆ¶¯µÄÊµ¼Êµ¥Î»
   if (len_dir != 0) {
     double normalized_x = dir_x / len_dir;
     double normalized_y = dir_y / len_dir;
@@ -72,7 +75,7 @@ void Enemy::move(const GameObject2D& object) {
 }
 
 bool Enemy::checkCollision(const GameObject2D& object) const {
-  // åœ¨è¿›è¡Œ2Dç¢°æ’æ£€æµ‹æ—¶ï¼Œå°†æ•Œäººçœ‹ä½œä¸€ä¸ªçŸ©å½¢ï¼Œå°†å…¶å®ƒç‰©ä½“çœ‹ä½œä¸€ä¸ªç‚¹ï¼Œæ£€æŸ¥ç‚¹æ˜¯å¦ä½äºçŸ©å½¢å†…å³å¯
+  // ÔÚ½øĞĞ2DÅö×²¼ì²âÊ±£¬½«µĞÈË¿´×÷Ò»¸ö¾ØĞÎ£¬½«ÆäËüÎïÌå¿´×÷Ò»¸öµã£¬¼ì²éµãÊÇ·ñÎ»ÓÚ¾ØĞÎÄÚ¼´¿É
   std::pair<int, int> this_x_projection
     = { position.x ,position.x + Enemy::WIDTH };
   std::pair<int, int> this_y_projection
@@ -89,7 +92,7 @@ bool Enemy::checkCollision(const GameObject2D& object) const {
 
 void Enemy::hurt(int attack) {
   this->hp -= attack;
-  alive = (hp > 0);   // å­˜æ´»çŠ¶æ€æ ¹æ®è¡€é‡è¯„åˆ¤
+  alive = (hp > 0);   // ´æ»î×´Ì¬¸ù¾İÑªÁ¿ÆÀÅĞ
 }
 
 bool Enemy::isAlive() const { return this->alive; }
@@ -97,7 +100,7 @@ bool Enemy::isAlive() const { return this->alive; }
 size_t Enemy::getValue() const { return this->value; }
 
 
-// é™æ€æ–¹æ³•
+// ¾²Ì¬·½·¨
 void Enemy::tryGenerateEnemy(std::vector<std::shared_ptr<Enemy>>& enemies) {
   const int INTERVAL = 100;
   static int counter = 0;

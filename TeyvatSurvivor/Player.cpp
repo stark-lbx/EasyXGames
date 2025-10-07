@@ -1,13 +1,16 @@
 #include "Player.h"
 
+const Atlas Player::ATLAS_LEFT = { L"img/player_left_%d.png", 6 };
+const Atlas Player::ATLAS_RIGHT = { L"img/player_right_%d.png", 6 };
+
 Player::Player(int x, int y, int xs, int ys)
   :BaseRole(x, y, Player::WIDTH, Player::HEIGHT, xs, ys, 1) {
-  // åŠ è½½é˜´å½±
+  // ¼ÓÔØÒõÓ°
   loadimage(&img_shadow, L"img/shadow_player.png");
-  // åŠ è½½å‘å·¦ç§»åŠ¨æ—¶åŠ¨ç”»
-  anim_left = std::make_shared<Animation>(L"img/player_left_%d.png", 6, 45);
-  // åŠ è½½å‘å³ç§»åŠ¨æ—¶åŠ¨ç”»
-  anim_right = std::make_shared<Animation>(L"img/player_right_%d.png", 6, 45);
+  // ¼ÓÔØÏò×óÒÆ¶¯Ê±¶¯»­
+  anim_left = std::make_shared<Animation>(&Player::ATLAS_LEFT, 45);
+  // ¼ÓÔØÏòÓÒÒÆ¶¯Ê±¶¯»­
+  anim_right = std::make_shared<Animation>(&Player::ATLAS_RIGHT, 45);
 }
 
 
@@ -16,13 +19,13 @@ void Player::move() {
   // if (is_move_down)pos.y += yspeed;
   // if (is_move_left) pos.x -= xspeed;
   // if (is_move_right)pos.x += xspeed;
-  // ä¸Šè¿°ä»£ç å¦‚æœæ–œç€ç§»åŠ¨æ—¶, ä¼šæœ‰ä¸€ä¸ªæ ¹å·2å€çš„åŠ é€Ÿæ•ˆæœ(å‹¾è‚¡å®šç†)
-  // æ‰€ä»¥éœ€è¦åˆ†æƒ…å†µè®¨è®ºï¼Œå¦‚æœif...else...åˆ™ä¼šæœ‰å¤ªå¤šçš„åˆ†æ”¯
-  // é‚£ä¹ˆä½¿ç”¨å‘é‡æ¥è§£å†³è¿™ä¸ªé—®é¢˜å°±è¡Œ
+  // ÉÏÊö´úÂëÈç¹ûĞ±×ÅÒÆ¶¯Ê±, »áÓĞÒ»¸ö¸ùºÅ2±¶µÄ¼ÓËÙĞ§¹û(¹´¹É¶¨Àí)
+  // ËùÒÔĞèÒª·ÖÇé¿öÌÖÂÛ£¬Èç¹ûif...else...Ôò»áÓĞÌ«¶àµÄ·ÖÖ§
+  // ÄÇÃ´Ê¹ÓÃÏòÁ¿À´½â¾öÕâ¸öÎÊÌâ¾ÍĞĞ
 
-  int dir_x = is_move_right - is_move_left; // xæ–¹å‘çš„ç§»åŠ¨å•ä½
-  int dir_y = is_move_down - is_move_up; // yæ–¹å‘çš„ç§»åŠ¨å•ä½
-  double len_dir = std::sqrt(dir_x * dir_x + dir_y * dir_y); // ç§»åŠ¨çš„å®é™…å•ä½
+  int dir_x = is_move_right - is_move_left; // x·½ÏòµÄÒÆ¶¯µ¥Î»
+  int dir_y = is_move_down - is_move_up; // y·½ÏòµÄÒÆ¶¯µ¥Î»
+  double len_dir = std::sqrt(dir_x * dir_x + dir_y * dir_y); // ÒÆ¶¯µÄÊµ¼Êµ¥Î»
   if (len_dir != 0) {
     double normalized_x = dir_x / len_dir;
     double normalized_y = dir_y / len_dir;
@@ -30,7 +33,7 @@ void Player::move() {
     position.y += (int)(yspeed * normalized_y);
   }
 
-  // ç§»åŠ¨æ—¶çš„è¾¹ç•Œåˆ¤æ–­
+  // ÒÆ¶¯Ê±µÄ±ß½çÅĞ¶Ï
   if (position.x < 0)
     position.x = 0;
   if (position.y < 0)
@@ -42,18 +45,18 @@ void Player::move() {
 }
 
 void Player::draw(int delta) {
-  // è®¡ç®—é˜´å½±ä½ç½®(æ°´å¹³å±…ä¸­, å‚ç›´åº•éƒ¨åä¸‹) -> ç»˜åˆ¶é˜´å½±æ•ˆæœ 
+  // ¼ÆËãÒõÓ°Î»ÖÃ(Ë®Æ½¾ÓÖĞ, ´¹Ö±µ×²¿Æ«ÏÂ) -> »æÖÆÒõÓ°Ğ§¹û 
   int pos_shadow_x = position.x + (Player::WIDTH / 2 - Player::SHADOW_WIDTH / 2);
   int pos_shadow_y = position.y + Player::HEIGHT + 8;
   putimageAlpha(pos_shadow_x, pos_shadow_y, &img_shadow);
 
-  // ç¡®å®šç§»åŠ¨æœå‘
+  // È·¶¨ÒÆ¶¯³¯Ïò
   static bool facing_left = false;
   int dir_x = is_move_right - is_move_left;
   if (dir_x < 0) facing_left = true;
   else if (dir_x > 0) facing_left = false;
 
-  // æ’­æ”¾ç§»åŠ¨åŠ¨ç”»
+  // ²¥·ÅÒÆ¶¯¶¯»­
   if (facing_left) {
     anim_left->play(position.x, position.y, delta);
   } else {

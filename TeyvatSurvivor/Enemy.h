@@ -1,32 +1,34 @@
 #pragma once
 #include "BaseRole.h"
 class Enemy : public BaseRole {
+private:
+  constexpr static const int WIDTH = 80;        // µĞÈË¿í¶È
+  constexpr static const int HEIGHT = 80;       // µĞÈË¸ß¶È
+  constexpr static const int SHADOW_WIDTH = 48; // ÒõÓ°¿í¶È
 
+  static const Atlas ATLAS_LEFT;                // µĞÈËÏò×óµÄ¶¯»­Í¼¼¯
+  static const Atlas ATLAS_RIGHT;               // µĞÈËÏòÓÒµÄ¶¯»­Í¼¼¯
 public:
   explicit Enemy();
 
   void draw(int delta) override;
   void move() override;
-  // æœç€ç›®æ ‡ç§»åŠ¨
+  // ³¯×ÅÄ¿±êÒÆ¶¯
   void move(const GameObject2D& object);
 
-  // æ£€æµ‹ä¸å…¶å®ƒç‰©ä½“çš„ç¢°æ’
+  // ¼ì²âÓëÆäËüÎïÌåµÄÅö×²
   bool checkCollision(const GameObject2D& object) const;
-  // å—ä¼¤
+  // ÊÜÉË
   void hurt(int attack);
-  // æ£€æµ‹æ˜¯å¦å­˜æ´»
+  // ¼ì²âÊÇ·ñ´æ»î
   bool isAlive() const;
-  // è·å–ä»·å€¼
+  // »ñÈ¡¼ÛÖµ
   size_t getValue() const;
 
-  // é™æ€æ–¹æ³•, å‘å®¹å™¨ä¸­æ·»åŠ ä¸€ä¸ªæ•Œäºº
+  // ¾²Ì¬·½·¨, ÏòÈİÆ÷ÖĞÌí¼ÓÒ»¸öµĞÈË
   static void tryGenerateEnemy(std::vector<std::shared_ptr<Enemy>>& enemies);
 private:
-  constexpr static const int WIDTH = 80;        // æ•Œäººå®½åº¦
-  constexpr static const int HEIGHT = 80;       // æ•Œäººé«˜åº¦
-  constexpr static const int SHADOW_WIDTH = 48; // é˜´å½±å®½åº¦
-private:
-  bool facing_left = false; // æ˜¯å¦æœå‘å·¦
-  size_t value = 1;         // ä½œä¸ºæ•Œäººçš„ä»·å€¼
+  bool facing_left = false; // ÊÇ·ñ³¯Ïò×ó
+  size_t value = 1;         // ×÷ÎªµĞÈËµÄ¼ÛÖµ
 };
 

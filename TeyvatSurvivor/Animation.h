@@ -1,19 +1,38 @@
 #pragma once
 #include "common.h"
 
-// åŠ¨ç”»ç±»
+// Í¼¼¯Àà
+class Atlas {
+public:
+  // ¶¯»­ĞòÁĞÖ¡, frame_list.size(): ¶¯»­Ö¡×ÜÊı
+  std::vector<std::shared_ptr<IMAGE>> frame_list;
+
+  // ¹¹Ôìº¯Êı
+  Atlas(LPCTSTR path, int num) {
+    TCHAR path_file[256];
+    for (size_t i = 0; i < num; ++i) {
+      _stprintf_s(path_file, path, i);
+
+      std::unique_ptr<IMAGE> frame = std::make_unique<IMAGE>();
+      loadimage(frame.get(), path_file);
+      frame_list.push_back(std::move(frame));
+    }
+  }
+};
+
+// ¶¯»­Àà
 class Animation {
 public:
-  // æ„é€ å‡½æ•°
-  Animation(LPCTSTR path, int num, int interval);
+  // ¹¹Ôìº¯Êı
+  ~Animation() = default;
+  Animation(const Atlas* atlas, int terval);
 
-  // æ’­æ”¾åŠ¨ç”»
+  // ²¥·Å¶¯»­
   void play(int x, int y, int delta);
 private:
-  int timer = 0;          // åŠ¨ç”»è®¡æ—¶å™¨
-  int idx_frame = 0;      // åŠ¨ç”»å¸§ç´¢å¼•
-  int interval_ms = 0;    // å¸§é—´éš”
-
-  // åŠ¨ç”»åºåˆ—å¸§, frame_list.size(): åŠ¨ç”»å¸§æ€»æ•°
-  std::vector<std::shared_ptr<IMAGE>> frame_list;
+  int timer = 0;          // ¶¯»­¼ÆÊ±Æ÷
+  int idx_frame = 0;      // ¶¯»­Ö¡Ë÷Òı
+  int interval_ms = 0;    // Ö¡¼ä¸ô
+private:
+  const Atlas* anim_atlas;
 };

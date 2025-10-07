@@ -20,34 +20,36 @@ class Player : public BaseRole {
   //   Animation* anim_up;
   //   Animation* anim_down;
   ////////////////////////////////
+private:
+  static const int WIDTH = 80;
+  static const int HEIGHT = 80;
+  static const int SHADOW_WIDTH = 32;
+
+  static const Atlas ATLAS_LEFT;
+  static const Atlas ATLAS_RIGHT;
 public:
   explicit Player(int x, int y, int xs, int ys);
 
   void move() override;
   void draw(int delta) override;
 
-  // è§’è‰²è½¬å‘
+  // ½ÇÉ«×ªÏò
   void turnTo(Direction direction);
-  // åœæ­¢è§’è‰²åœ¨æŸæ–¹å‘çš„ç§»åŠ¨è¡Œä¸º
+  // Í£Ö¹½ÇÉ«ÔÚÄ³·½ÏòµÄÒÆ¶¯ĞĞÎª
   void stopMoveOn(Direction direction);
 
-  // åŠ ç§¯åˆ†
+  // ¼Ó»ı·Ö
   void addScore(size_t s);
-  // å–ç§¯åˆ†
+  // È¡»ı·Ö
   const size_t getScore() const;
-
 private:
-  static const int WIDTH = 80;
-  static const int HEIGHT = 80;
-  static const int SHADOW_WIDTH = 32;
-private:
-  // æ˜¯å¦åœ¨ upã€downã€leftã€right æ–¹å‘ä¸Šç§»åŠ¨
+  // ÊÇ·ñÔÚ up¡¢down¡¢left¡¢right ·½ÏòÉÏÒÆ¶¯
   bool is_move_up = false;
   bool is_move_down = false;
   bool is_move_left = false;
   bool is_move_right = false;
 
-  // è§’è‰²å½“å‰å¾—åˆ†
+  // ½ÇÉ«µ±Ç°µÃ·Ö
   size_t score = 0;
 };
 

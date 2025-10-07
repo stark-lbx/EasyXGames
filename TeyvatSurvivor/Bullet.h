@@ -4,14 +4,13 @@
 #include <atomic>
 
 class Bullet :public BaseWeapon {
+private:
+  constexpr static const int RADIUS = 10;     // Բ���ӵ��뾶
 public:
   Bullet();
   ~Bullet() = default;
 
   void draw() const override;
   void update(const BaseRole& ref_role, int index, int total) override;
-
-private:
-  constexpr static const int RADIUS = 10;     // Ô²Çò×Óµ¯°ë¾¶
 };
 
